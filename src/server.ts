@@ -1,17 +1,14 @@
 import  "express-async-errors";
 import app from "./app";
 import { logger } from "./middlewares/errors.middleware";
-import connectToPostgres from "./config/database.config"
+import connectToPostgres from "./configs/database.configs"
+import {PORT} from "./configs/constants.config"
 
-const PORT = process.env.PORT;
+(async () => {
+  await connectToPostgres();
+  logger.info(`Attempting to run server on port ${PORT}`);
 
-connectToPostgres()
-  .then((sequelize) => {
-    app.listen(PORT, () => {
-      logger.info(`Server started on port ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    logger.error('Failed to connect to PostgreSQL:', error);
-    process.exit(1);
+  app.listen(PORT, () => {
+    logger.info(`Listening on port ${PORT}`);
   });
+})();

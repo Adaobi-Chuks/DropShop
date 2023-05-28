@@ -1,8 +1,18 @@
-import { DATEONLY, DataTypes } from "sequelize";
+import { DATEONLY, DataTypes, Model } from "sequelize";
 import { sequelize } from "../../configs/database.configs";
 import bcrypt from "bcrypt";
 
-const User = sequelize.define('User', {
+class User extends Model {
+    public id!: number;
+    public fullName!: string;
+    public email!: string;
+    public password!: string;
+    public phoneNumber!: string;
+    public role!: 'seller' | 'buyer' | 'delivery' | 'admin';
+    public birthDate!: string;
+}
+
+User.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -40,11 +50,11 @@ const User = sequelize.define('User', {
         allowNull: false
     }
 }, {
+    sequelize,
     tableName: 'users',
     timestamps: true,
     updatedAt: false,
     createdAt: "createTimestamp"
 });
-sequelize.sync();
 
 export default User;

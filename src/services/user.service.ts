@@ -42,7 +42,7 @@ export default class UserService {
     return updatedUsers[0];
   }
 
-  async delete(id: any) {
+  async destroy(id: any) {
     const deletedRows = await User.destroy({ where: { id } });
     if (deletedRows === 0) {
       return null;

@@ -6,8 +6,6 @@ interface IUser {
     phoneNumber: string;
     birthDate: Date;
     role: string;
-    createdAt: Date;
-    updatedAt: Date;
 }
 
 type IUserOpt = Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>;

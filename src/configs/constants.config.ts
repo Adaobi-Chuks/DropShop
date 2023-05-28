@@ -1,6 +1,7 @@
 const PORT = process.env.PORT || 9871;
 const SECRET = process.env.SECRET!;
 const MAXAGE = 3 * 24 * 60 * 60;
+const basePath = "/api/v1"
 
 const MESSAGES = {
     DATABASE: {
@@ -33,6 +34,7 @@ export {
     PORT,
     SECRET,
     MAXAGE,
+    basePath,
     MESSAGES,
     // DATABASE_URI,
     // SALTROUNDS,

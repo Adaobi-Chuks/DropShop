@@ -32,9 +32,9 @@ const {
 export default class UserController {
     async createUser(req: Request, res: Response) {
         const {email, phoneNumber} = req.body;
-
+        
         //checks if another user with email exists
-        if (await findOne(email)) {
+        if (await findOne({email: email})) {
             //sends an error if the email exists
             return res.status(409)
             .send({
@@ -42,8 +42,9 @@ export default class UserController {
                 message: DUPLICATE_EMAIL
             });
         }
+
         //checks if another user with phoneNumber exists
-        if (await findOne(phoneNumber)) {
+        if (await findOne({phoneNumber: phoneNumber})) {
             //sends an error if the userName exists
             return res.status(409)
             .send({
@@ -51,6 +52,7 @@ export default class UserController {
                 message: DUPLICATE_PHONENUMBER
             });
         }
+        
         //creates a user if the email and phonenumber doesn't exist
         const createdUser = await create(req.body);
         const token = generateAuthToken(createdUser as any);
@@ -92,7 +94,7 @@ export default class UserController {
         });
     }
 
-    async editUserById(req: Request, res: Response) {
+    async update(req: Request, res: Response) {
         const id = req.params.userId;
         const data = req.body;
         const userToEdit = await findOneById(id);
@@ -130,24 +132,22 @@ export default class UserController {
         })
     }
 
-    async deleteById(req: Request, res: Response) {
+    async destroy(req: Request, res: Response) {
         const id = req.params.userId;
 
         //check to see if a user with id exists
         const userToDelete = await findOneById(id);
         //deletes the user if the id exist
         if(userToDelete) {
-            const userDeleted = await destroy(id);
-            if(userDeleted) {
-                return res.status(201).send({
-                    success: true,
-                    message: DELETED
-                });
-            }
+            await destroy(id);
             //A user shouldn't have access to unauthenticated requests if the user deletes his/her account
             const token = generateAuthToken(userToDelete as any);
             res.cookie(token, "", {
                 httpOnly: true, maxAge: MAXAGE * 1000
+            });
+            return res.status(200).send({
+                success: true,
+                message: DELETED
             });
         }
         //sends an error if the id doesn't exists
@@ -160,7 +160,7 @@ export default class UserController {
 
     async login(req: Request, res: Response) {
         const {email, password} = req.body;
-        const _user = await findOne(email);
+        const _user = await findOne({email: email});
         if (!_user) {
             return res.status(400)
                 .send({ 

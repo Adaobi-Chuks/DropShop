@@ -3,10 +3,9 @@ import morgan from "morgan";
 import cors from "cors";
 import asyncError from "./errors.middleware";
 import { logger } from "./errors.middleware";
-// import indexRoutes from "../routes/index.routes";
+import indexRoutes from "../routes/index.routes";
 
 export default (app: Application) => {
-  app.use(asyncError);
   app.use(morgan('dev'));
   app.use(cors());
   app.use(express.json());
@@ -16,5 +15,6 @@ export default (app: Application) => {
     logger.info('MySQL Query:', req.query);
     next();
   });
-  // indexRoutes(app);
+  indexRoutes(app);
+  app.use(asyncError);
 };

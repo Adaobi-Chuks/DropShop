@@ -9,7 +9,6 @@ const {
     findOneById,
     findOneWithFields,
     findAll,
-    findAllWithFields,
     update,
     destroy,
     generateAuthToken

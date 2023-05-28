@@ -102,8 +102,8 @@ export default class UserController {
         //check if the user exists
         if(!userToEdit) {
             return res.status(404).send({
-                success: false,
-                message: INVALID_ID
+                Success: false,
+                Message: INVALID_ID
             })
         }
         //check if email already exist if the email needs to be updated
@@ -112,8 +112,8 @@ export default class UserController {
             if(userEmailWithEmail){
                 if(userEmailWithEmail.id.toString() !== id){
                     return res.status(403).send({
-                        success: false,
-                        message: DUPLICATE_EMAIL
+                        Success: false,
+                        Message: DUPLICATE_EMAIL
                     })
                 }
             }
@@ -126,8 +126,8 @@ export default class UserController {
             maxAge: MAXAGE * 1000 
         });
         return res.status(200).send({
-            success: true,
-            message: UPDATED,
+            Success: true,
+            Message: UPDATED,
             User: updatedUser
         })
     }
@@ -146,15 +146,15 @@ export default class UserController {
                 httpOnly: true, maxAge: MAXAGE * 1000
             });
             return res.status(200).send({
-                success: true,
-                message: DELETED
+                Success: true,
+                Message: DELETED
             });
         }
         //sends an error if the id doesn't exists
         return res.status(404)
             .send({
-                success: false,
-                message: INVALID_ID
+                Success: false,
+                Message: INVALID_ID
             });   
     }
 
@@ -164,8 +164,8 @@ export default class UserController {
         if (!_user) {
             return res.status(400)
                 .send({ 
-                    success: false, 
-                    message: INVALID_EMAIL
+                    Success: false, 
+                    Message: INVALID_EMAIL
                 });
         }
         
@@ -173,8 +173,8 @@ export default class UserController {
         if (!validPassword) {
             return res.status(400)
                 .send({ 
-                    success: false, 
-                    message: INVALID_PASSWORD
+                    Success: false, 
+                    Message: INVALID_PASSWORD
                 });
         }
         const token = generateAuthToken(_user as unknown as IUser);
@@ -183,9 +183,9 @@ export default class UserController {
             maxAge: MAXAGE * 1000
         });
         return res.status(200).send({
-            success: true,
-            message: LOGGEDIN,
-            user: _user 
+            Success: true,
+            Message: LOGGEDIN,
+            User: _user 
         });
     }
 
@@ -194,8 +194,8 @@ export default class UserController {
             httpOnly: true, maxAge: 1 
         });
         return res.status(200).send({
-            success: true,
-            message: LOGGEDOUT
+            Success: true,
+            Message: LOGGEDOUT
         });
     }
 }

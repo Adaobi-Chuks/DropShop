@@ -1,6 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable class-methods-use-this */
 import User from '../models/sequelizes/user.model';
 import jwt from "jsonwebtoken";
 import { MAXAGE, SECRET } from "../configs/constants.config";

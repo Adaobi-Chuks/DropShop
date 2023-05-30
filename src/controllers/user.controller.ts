@@ -10,7 +10,8 @@ const {
     findOneWithFields,
     findAll,
     update,
-    destroy,
+    softDelete,
+    hardDelete,
     generateAuthToken
 } = new UserService();
 const {
@@ -131,14 +132,40 @@ export default class UserController {
         })
     }
 
-    async destroy(req: Request, res: Response) {
+    async softDelete(req: Request, res: Response, func: Function) {
         const id = req.params.userId;
 
         //check to see if a user with id exists
         const userToDelete = await findOneById(id);
         //deletes the user if the id exist
         if(userToDelete) {
-            await destroy(id);
+            await softDelete(id);
+            //A user shouldn't have access to unauthenticated requests if the user deletes his/her account
+            const token = generateAuthToken(userToDelete as any);
+            res.cookie(token, "", {
+                httpOnly: true, maxAge: MAXAGE * 1000
+            });
+            return res.status(200).send({
+                Success: true,
+                Message: DELETED
+            });
+        }
+        //sends an error if the id doesn't exists
+        return res.status(404)
+            .send({
+                Success: false,
+                Message: INVALID_ID
+            });   
+    }
+
+    async hardDelete(req: Request, res: Response, func: Function) {
+        const id = req.params.userId;
+
+        //check to see if a user with id exists
+        const userToDelete = await findOneById(id);
+        //deletes the user if the id exist
+        if(userToDelete) {
+            await hardDelete(id);
             //A user shouldn't have access to unauthenticated requests if the user deletes his/her account
             const token = generateAuthToken(userToDelete as any);
             res.cookie(token, "", {

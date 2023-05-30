@@ -31,17 +31,16 @@ export default class UserService {
 
   async update(id: any, data: any) {
     const [numUpdated, updatedUsers] = await User.update(data, { where: { id }, returning: true });
-    if (numUpdated === 0) {
-      return null;
-    }
     return await User.findByPk(updatedUsers[0].id, { attributes: {exclude: ["password"]} });
   }
 
-  async destroy(id: any) {
+  async softDelete(id: any) {
     const deletedRows = await User.destroy({ where: { id } });
-    if (deletedRows === 0) {
-      return null;
-    }
+    return;
+  }
+
+  async hardDelete(id: any) {
+    await User.destroy({ where: { id }, force: true });
     return;
   }
 

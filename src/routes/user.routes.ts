@@ -1,12 +1,13 @@
 import { Router } from "express";
-const router = Router();
 import UserController from '../controllers/user.controller';
+const router = Router();
 const {
     createUser,
     getUserById,
     getUsers,
     update,
-    destroy,
+    softDelete,
+    hardDelete,
     login,
     logout
 } = new UserController();
@@ -19,8 +20,10 @@ router.get("/:userId", getUserById);
 router.get("/", getUsers);
 //edit any user details
 router.patch("/:userId", update);
-// delete user
-router.delete("/:userId", destroy);
+//soft delete user
+router.delete("/:userId", softDelete);
+//hard delete user
+router.delete("/delete/:userId", hardDelete);
 //login a user
 router.post("/login", login);
 //logout a user

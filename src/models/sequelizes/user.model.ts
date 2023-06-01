@@ -8,7 +8,7 @@ class User extends Model {
     public email!: string;
     public password!: string;
     public phoneNumber!: string;
-    public role!: 'seller' | 'buyer' | 'delivery' | 'admin';
+    public role!: 'user' | 'admin';
     public birthDate!: string;
 }
 
@@ -20,12 +20,29 @@ User.init({
     },
     fullName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notNull:  {
+                msg: "Fullname cannot be null"
+            },
+            max: {
+                args: [50],
+                msg: "Maximum characters exceeded for fullname"
+            }
+        }
     },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        validate: {
+            isEmail:  {
+                msg: "Must be a valid email address"
+            },
+            notNull:  {
+                msg: "Email cannot be null"
+            } 
+        }
     },
     password: {
         type: DataTypes.STRING,
@@ -33,28 +50,60 @@ User.init({
         set(value: string) {
             const hashedPassword = bcrypt.hashSync(value, 10);
             this.setDataValue('password', hashedPassword);
+        },
+        validate: {
+            notNull:  {
+                msg: "Password cannot be null"
+            },
+            min: {
+                args: [6],
+                msg: "Password must be greater than 6 characters"
+            }
         }
     },
     phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        validate: {
+            notNull:  {
+                msg: "Phonenumber cannot be null"
+            },
+            is: {
+                args: ["^(\\+?234|0)([789]\\d{9})$"],
+                msg: "Invalid phonenumber"
+            }
+        }
     },
     role: {
-        type: DataTypes.ENUM('seller', 'buyer', 'delivery', 'admin'),
-        allowNull: true,
-        defaultValue: "buyer"
+        type: DataTypes.ENUM('user', 'admin'),
+        allowNull: false,
+        defaultValue: "user"
     },
     birthDate: {
         type: DATEONLY,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notNull:  {
+                msg: "Birthdate cannot be null"
+            },
+            isDate: {
+                args: true,
+                msg: "Invalid birthdate format. Please provide a valid date."
+            },
+            isBefore: {
+                args: new Date().toISOString().split('T')[0],
+                msg: 'Birthdate must be before the current date.',
+            }
+        }
     }
 }, {
     sequelize,
     tableName: 'users',
     timestamps: true,
     updatedAt: false,
-    createdAt: "createTimestamp"
+    createdAt: "createTimestamp",
+    paranoid: true
 });
 
 export default User;

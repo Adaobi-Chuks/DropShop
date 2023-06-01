@@ -1,6 +1,7 @@
 import {Sequelize} from "sequelize";
 import { logger } from "../middlewares/errors.middleware";
 import { MESSAGES } from "./constants.config";
+
 export const config = {
   dialect: 'postgres' as const,
   host: process.env.PG_HOST,
@@ -19,7 +20,7 @@ export default async function() {
     await sequelize.authenticate();
     logger.info(MESSAGES.DATABASE.CONNECTED)
     // Sync models with database
-    sequelize.sync();
+    sequelize.sync({alter: true});
     return sequelize;
   } catch (error) {
     logger.error(MESSAGES.DATABASE.ERROR, error)

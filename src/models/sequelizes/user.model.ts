@@ -1,15 +1,13 @@
-import { DATEONLY, DataTypes, Model } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../configs/database.configs";
 import bcrypt from "bcrypt";
+import Profile from "./profile.model";
 
 class User extends Model {
     public id!: number;
-    public fullName!: string;
     public email!: string;
     public password!: string;
-    public phoneNumber!: string;
     public role!: 'user' | 'admin';
-    public birthDate!: string;
 }
 
 User.init({
@@ -17,19 +15,6 @@ User.init({
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
-    },
-    fullName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notNull:  {
-                msg: "Fullname cannot be null"
-            },
-            max: {
-                args: [50],
-                msg: "Maximum characters exceeded for fullname"
-            }
-        }
     },
     email: {
         type: DataTypes.STRING,
@@ -41,7 +26,7 @@ User.init({
             },
             notNull:  {
                 msg: "Email cannot be null"
-            } 
+            }
         }
     },
     password: {
@@ -61,49 +46,18 @@ User.init({
             }
         }
     },
-    phoneNumber: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-            notNull:  {
-                msg: "Phonenumber cannot be null"
-            },
-            is: {
-                args: ["^(\\+?234|0)([789]\\d{9})$"],
-                msg: "Invalid phonenumber"
-            }
-        }
-    },
     role: {
         type: DataTypes.ENUM('user', 'admin'),
         allowNull: false,
         defaultValue: "user"
     },
-    birthDate: {
-        type: DATEONLY,
-        allowNull: false,
-        validate: {
-            notNull:  {
-                msg: "Birthdate cannot be null"
-            },
-            isDate: {
-                args: true,
-                msg: "Invalid birthdate format. Please provide a valid date."
-            },
-            isBefore: {
-                args: new Date().toISOString().split('T')[0],
-                msg: 'Birthdate must be before the current date.',
-            }
-        }
-    }
 }, {
     sequelize,
     tableName: 'users',
     timestamps: true,
-    updatedAt: false,
-    createdAt: "createTimestamp",
-    paranoid: true
+    paranoid: true,
+    // updatedAt: false,
+    // createdAt: "createTimestamp",
 });
 
 export default User;

@@ -47,7 +47,6 @@ export default class UserService {
   generateAuthToken (user: IUser) {
     return jwt.sign({
       id: user.id,
-      fullName: user.fullName,
       email: user.email,
       role: user.role
     }, SECRET, {

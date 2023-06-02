@@ -39,7 +39,6 @@ User.hasMany(Product, {
     allowNull: false
   }
 });
-
 Product.belongsTo(User, {
   foreignKey: "userId",
 });

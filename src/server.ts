@@ -9,6 +9,6 @@ import {PORT} from "./configs/constants.config"
   logger.info(`Attempting to run server on port ${PORT}`);
 
   app.listen(PORT, () => {
-    logger.info(`Listening on port ${PORT}`);
+  logger.info(`Listening on port ${PORT}`);
   });
 })();

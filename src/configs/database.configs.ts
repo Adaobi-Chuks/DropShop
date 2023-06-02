@@ -21,6 +21,7 @@ export default async function() {
     logger.info(MESSAGES.DATABASE.CONNECTED)
     // Sync models with database
     sequelize.sync({alter: true});
+    
     return sequelize;
   } catch (error) {
     logger.error(MESSAGES.DATABASE.ERROR, error)

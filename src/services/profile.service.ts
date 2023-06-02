@@ -1,4 +1,4 @@
-import Profile from '../models/sequelizes/profile.model';
+import Profile from '../models/profile.model';
 
 export default class ProfileService {
     async create(data: any) {

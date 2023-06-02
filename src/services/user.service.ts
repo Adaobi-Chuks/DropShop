@@ -1,4 +1,4 @@
-import User from '../models/sequelizes/user.model';
+import User from '../models/user.model';
 import jwt from "jsonwebtoken";
 import { MAXAGE, SECRET } from "../configs/constants.config";
 import { IUser } from '../interfaces/user.interface';

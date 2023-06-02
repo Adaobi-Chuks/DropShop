@@ -1,5 +1,5 @@
 import { DATEONLY, DataTypes, Model } from "sequelize";
-import { sequelize } from "../../configs/database.configs";
+import { sequelize } from "../configs/database.configs";
 import User from "./user.model";
 
 class Profile extends Model {

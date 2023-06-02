@@ -94,10 +94,8 @@ Profile.init({
     }
 }, {
     sequelize,
-    tableName: 'profiles',
+    tableName: "profiles",
     timestamps: true,
-    updatedAt: false,
-    createdAt: "createTimestamp",
     paranoid: true
 });
 
@@ -107,6 +105,7 @@ User.hasOne(Profile, {
         allowNull: false
     }
 });
+
 Profile.belongsTo(User, {
     foreignKey: "userId"
 });

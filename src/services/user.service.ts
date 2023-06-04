@@ -1,4 +1,4 @@
-import User from '../models/user.model';
+import User from '../models/user.models';
 import jwt from "jsonwebtoken";
 import { MAXAGE, SECRET } from "../configs/constants.config";
 import { IUser } from '../interfaces/user.interface';

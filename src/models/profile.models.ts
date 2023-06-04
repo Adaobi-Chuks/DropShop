@@ -1,6 +1,5 @@
 import { DATEONLY, DataTypes, Model } from "sequelize";
 import { sequelize } from "../configs/database.configs";
-import User from "./user.model";
 
 class Profile extends Model {
     public id!: number;
@@ -97,17 +96,6 @@ Profile.init({
     tableName: "profiles",
     timestamps: true,
     paranoid: true
-});
-
-User.hasOne(Profile, {
-    foreignKey: {
-        name: "userId",
-        allowNull: false
-    }
-});
-
-Profile.belongsTo(User, {
-    foreignKey: "userId"
 });
 
 export default Profile;

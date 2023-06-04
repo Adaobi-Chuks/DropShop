@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../configs/database.configs";
-import Product from "./product.model";
+import Product from "./product.models";
 
 class Image extends Model {
     public id!: number;
@@ -38,6 +38,7 @@ Product.hasMany(Image, {
     foreignKey: 'productId',
     onDelete: 'CASCADE',
 });
+
 Image.belongsTo(Product, {
     foreignKey: {
         name: "productId",

@@ -1,4 +1,4 @@
-import Profile from '../models/profile.model';
+import Profile from '../models/profile.models';
 
 export default class ProfileService {
     async create(data: any) {

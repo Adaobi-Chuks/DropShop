@@ -4,8 +4,8 @@ import Product from "../models/product.models";
 export default function userProductAssociation(): void {
     User.hasMany(Product, {
         foreignKey: {
-          name: "userId",
-          allowNull: false
+            name: "userId",
+            allowNull: false
         },
         onDelete: "CASCADE"
     });
